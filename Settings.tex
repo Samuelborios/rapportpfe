@@ -1,0 +1,187 @@
+% Do not compile, settings document 
+
+% ========== Classe du document ==========
+\documentclass[12pt]{report}    % A4, police taille 11, report pour avoir les chapitres
+
+% ========== Langue française pour le document ==========
+\usepackage{latexsym}       % Police latex de base
+\usepackage[french]{babel}  % Dictionnaire français (indentation, caractères spéciaux, tirets...)
+\usepackage[utf8]{inputenc} % Encodage d'entrée pour les caractères accentués
+\usepackage[T1]{fontenc}    % Affichage correct des caractères accentués notamment
+
+% ========== Géométrie du document ==========
+% Gestion des différentes marges du document pour coller avec le séparateur d'en-tête
+\usepackage[left=2cm , right=2cm, bottom=2cm, top=2cm, headheight=2cm, headsep=0.5cm,heightrounded=true]{geometry}
+% \raggedbottom % This makes the last line of each page be at exactly the same place on the sheet of paper
+% \flushbottom  % All pages will not necessarily have exactly the same height, but ‘almost the same height’
+\setlength{\parskip}{1em}   % Définition de l'espace entre les paragraphes
+\setlength{\parindent}{4em} % Définition de la longueur du "tab" = indentation
+\usepackage{fancyhdr}       % Permet en-tête et pied de page
+\pagestyle{fancyplain}      % Pour avoir le même style sur les pages fancy et sur celles plains comme la toc
+\renewcommand\plainheadrulewidth{.4pt}  % Le trait noir sous les logos sur les pages plain
+\fancyhead[L]{\includegraphics[scale=0.1]{Images/Grenoble-Phelma-Logo.png}}    % Logo gauche
+\fancyhead[R]{\includegraphics[scale=0.03]{Images/logo-soict-hust.png}}   % Logo droit
+% Redéfinir le style "empty" utilisé par le documentclass "report" pour le titre, résumé et chapitres
+\fancypagestyle{empty}
+{
+    \fancyhf{}
+    \fancyhead[L]{\includegraphics[scale=0.1]{Images/Grenoble-Phelma-Logo.png}}    % Logo gauche
+    \fancyhead[R]{\includegraphics[scale=0.03]{Images/logo-soict-hust.png}} % Logo droit
+}
+
+
+\usepackage{afterpage} % génère ds pages blanches
+\newcommand\myemptypage{
+    \null
+    \thispagestyle{empty}
+    \addtocounter{page}{1}
+    \newpage
+    }
+
+% ========== Liens dans le document, méta-datas et références ==========
+\usepackage{xpatch}     % Permet de patcher certaines fonctionnalités de base comme la toc
+\usepackage{float}      % Placement des flottants
+\usepackage{hyperref}   % Liens dans le documents
+\hypersetup{pdfborder=0 0 0} % Pas d'encadré sur les liens
+\usepackage{caption}    % Légendes dans les environnements "figure" et "float"
+\usepackage[list=true]{subcaption} % Légendes pour les "sous-figures" et "sous-float"
+                                   % et affichage des "sous-..." dans la liste des figures
+% \def\thechapter{\Alph{chapter}}    % Définition des chapitres avec une lettre
+\setcounter{tocdepth}{3}           % Profondeur de numérotation de la toc  (chap > sec > subsec > subsubsec)
+\setcounter{secnumdepth}{3}        % Profondeur de numérotation des titres (chap > sec > subsec > subsubsec)
+\usepackage{chngcntr}              % Permet de changer les numérotations d'objets
+\usepackage[titles]{tocloft}       % Gestion très précise des différentes listes
+
+\hypersetup % Attribution des méta-datas pdf pour reconnaissance automatique Zotero entre autres
+{
+pdftitle={Titre},
+pdfsubject={Sujet},
+pdfauthor={Auteur},
+pdfkeywords={keyword1} {keyword2} {keyword3}
+}
+
+% ========== Graphique, police, maths ==========
+\usepackage[table,xcdraw]{xcolor}       % Package permettant d'utiliser de la couleur
+% \usepackage{color}                      % Rajouter de la couleur au texte
+\usepackage{bm}                         % Mettre en gras des maths avec la commande \bm
+\usepackage{ragged2e}                   % Meilleure gestion de l'alignement des textes entre autres
+\usepackage{tcolorbox}                  % Boite colorées pour texte, images ou équations
+\usepackage{textcomp}                   % Symboles et polices
+\usepackage{gensymb}                    % Symbole pour le degré entre autre
+\usepackage{amsmath,amsfonts,amssymb}   % Écrire des maths
+\usepackage{cancel}                     % Barrer des maths
+\usepackage{mathtools}                  % Gestion des matrices et de maths complexes
+\usepackage{morewrites}                 % Résoud un problème entre les listes équation et codes
+
+
+\usepackage{lmodern}
+\usepackage[Lenny]{fncychap}
+
+
+
+\ChNameUpperCase
+\ChNumVar{\fontsize{40}{42}\usefont{OT1}{ptm}{m}{n}\selectfont}
+\ChTitleVar{\Huge \bfseries}
+
+\usepackage{pifont}
+\usepackage{enumitem}       % Gestion des énumérations
+
+\definecolor{bulletcolor}{RGB}{0,0,0}
+
+% \setenumerate{label=\Alph*.}
+\setenumerate{label=\arabic*.}
+%\setenumerate{label=\roman*.}
+
+\setitemize{label=\textbullet, font=\Large \color{bulletcolor}}
+
+
+\usepackage{siunitx}                                    % Pour des unités bien écrites
+\newcommand{\nomunit}[1]{%
+\renewcommand{\nomentryend}{\hspace*{\fill}#1}}         % Commande pour la nomenclature (unités à droite)
+\sisetup{inter-unit-product =\ensuremath{{}\cdot{}}}    % Séparation par un point des unités
+\DeclareSIUnit\bar{bar}                                 % Besoin de déclarer les bar car pas pris en charge
+\DeclareSIPower\quartic\tothefourth{4}
+
+\usepackage{contour}
+\usepackage[normalem]{ulem}
+
+\renewcommand{\ULdepth}{1.8pt}
+\contourlength{0.8pt}
+
+\newcommand{\myuline}[1]{%
+	\uline{\phantom{#1}}%
+	\llap{\contour{white}{#1}}%
+}
+
+% myuline on each word to allow linebreaks
+\RequirePackage{xparse}
+\ExplSyntaxOn
+\NewDocumentCommand{\myulineX}{m}
+{
+	\seq_set_split:Nnn \l_tmpa_seq { ~ } { #1 }
+	\seq_map_inline:Nn \l_tmpa_seq { \myuline{##1} ~ } \unskip
+}
+\ExplSyntaxOff
+
+% =========== Glossaire ============
+\usepackage[acronym,toc,nonumberlist]{glossaries}% pas de numéro de page dans le glossaire
+
+\input{glossary}                        % Récupère les informations du fichier glossary.tex
+\makeglossaries                         % Génère le glossaire avec les informations récupérées
+
+% ======= Diagramme de Gantt =======
+\usepackage{pgfgantt}
+\definecolor{color_Gantt}{RGB}{228, 5, 32}
+
+% ===== Gestion des figures =========
+\usepackage{graphicx}               % Plus d'arguments pour la fonction \includegraphics
+\graphicspath{{Images/}}            % Path des images
+
+\counterwithin{figure}{section}     % Numérotation des figures à partir des sections
+\setcounter{lofdepth}{2}            % Afficher jusqu'aux sous-figures dans la liste des figures
+\cftsetindents{figure}{0em}{3.5em}  % Réglage de l'espace entre le numéro et le nom de la figure dans la liste
+\setlength\cftbeforefigskip{5pt}    % Réglage de l'espacement entre les figures dans la liste
+\AtBeginDocument{\renewcommand{\listfigurename}{Liste des figures}} % Renommer la liste des figures
+% Ajout de la position de la liste des figures dans la toc
+\xpretocmd{\listoffigures}{\addcontentsline{toc}{chapter}{\listfigurename}}{}{}
+
+% ===== Gestion des tableaux=========
+\usepackage{array,multirow,makecell}                        % Packages utiles pour les tableaux
+\setcellgapes{1pt}              \usepackage{booktabs}                         % Paramètres sympa d'après Xm1Math
+\makegapedcells                                             % Paramètres sympa d'après Xm1Math
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}   % Paramètres sympa d'après Xm1Math
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}  % Paramètres sympa d'après Xm1Math
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}    % Paramètres sympa d'après Xm1Math
+
+\counterwithin{table}{section}      % Numérotation des tableaux à partir des sections
+\setcounter{lotdepth}{2}            % Afficher jusqu'aux sous-tableaux dans la liste des tableaux
+\cftsetindents{table}{0em}{3.5em}   % Réglage de l'espace entre le numéro et le nom du tableau dans la liste
+\setlength\cftbeforetabskip{5pt}    % Réglage de l'espacement entre les figures dans la liste
+% Ajout de la position de la liste des tableaux dans la toc
+\xpretocmd{\listoftables}{\addcontentsline{toc}{chapter}{\listtablename}}{}{}
+
+% =============== Index =============
+\usepackage{imakeidx}   % Package pour créer l'index
+\makeindex              % Génération de l'index
+% Ajout de la position de l'index dans la toc
+\xpretocmd{\printindex}{\addcontentsline{toc}{chapter}{\indexname}}{}{}
+
+% ========== Bibliographie ==========
+% Importer un fichier biblatex, sans dépassement des marges, trié par ordre d'apparition
+\usepackage[block=ragged,sorting=none]{biblatex}
+\usepackage{csquotes}           % Gestion des caractères " " lors des citations
+\addbibresource{biblio.bib}     % Importer le fichier de bibliographie
+\nocite{*}                      % Importer les éléments non cités quand même dans la bibliographie
+
+% ===== Gestion des annexes ==========
+\usepackage[toc,page,title,titletoc,header]{appendix}   % Packages indexes importants
+\usepackage{pdfpages}                                   % Intégration de pdf dans le document
+\renewcommand{\appendixtocname}{Annexes}      % Nom de la table des annexes dans la toc
+\renewcommand{\appendixpagename}{Annexes}               % Nom du titre de la page des annexes
+\usepackage{titletoc}	% Permet de générer une petite table des annexes
+
+% ========== Utilitaires =============
+\usepackage[all,defaultlines=3]{nowidow}    % Macro pour la gestion des lignes seules en bout de page
+\usepackage{blindtext}                      % Génération de texte aléatoire pour les exemples
+
+% =================== Fin Préambule Latex ====================

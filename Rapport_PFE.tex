@@ -1,0 +1,285 @@
+
+\input{Settings}
+
+\begin{document}
+\renewcommand{\tablename}{Tab.}
+\renewcommand{\figurename}{Fig.}
+
+% ===========    Page de Garde  ===========
+\input{Page_de_garde}
+
+% ===== Dos page de garde = page blanche ==
+\newpage
+\myemptypage
+
+% ====== Début Préambule du rapport ========
+
+\newpage
+\hypersetup{pageanchor=true}
+\setcounter{page}{1}
+\tableofcontents
+\listoffigures
+\printglossaries
+
+
+
+% ====== Fin du Préambule du rapport  ======
+
+
+
+% ========== Début Document ================
+
+\newpage
+
+% ========== Introduction =================
+
+\newpage
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+
+Ce rapport présente le travail effectué lors de mon stage au sein du Bach Khoa Cyber Security Center (\acrshort{bkcs}) de l’Université des Sciences et Technologies de Hanoï – Hanoi University of Science and Technology (\acrshort{hust}). 
+Ce stage s'inscrit dans le contexte d'un projet antérieur au laboratoire déjà complété et n'a pas pour objectif un déploiement opérationnel. Il vise principalement à expérimenter et approfondir des approches techniques liées à la surveillance vidéo et à la gestion de caméras.
+Dans ce cadre, un prototype de site web a été conçu afin d’explorer des solutions de gestion et de supervision de caméras IP. Sa réalisation a constitué un support d’apprentissage, permettant d’aborder des problématiques variées telles que le développement web, le traitement de flux vidéo en temps réel et l’utilisation de protocoles de communication spécifiques à la vidéosurveillance.
+Parallèlement, le stage a également permis d’approfondir des notions en cybersécurité, en qualité logicielle ainsi qu’en intelligence artificielle (\acrshort{ia}) appliquée à la détection. Ce rapport retrace les principales étapes du projet, depuis l’analyse des besoins jusqu’à la mise en œuvre d’un prototype fonctionnel, en incluant les solutions envisagées ainsi que les difficultés rencontrées.
+
+
+
+
+
+% ========== Chapitre 1 =================
+\newpage
+\chapter{Contexte et objectifs du stage}
+
+
+\section{Présentation du laboratoire} 
+
+\acrshort{hust} est un acteur majeur de l’enseignement supérieur technique au Vietnam, elle a fait de la cybersécurité une priorité avec la création en 2015 du Centre de Sécurité de l’Information - \acrshort{bkcs}.
+
+Ce centre mène des travaux de recherche appliquée dans des domaines tels que :
+\begin{itemize}
+	\item l’analyse de vulnérabilités systèmes,
+	\item la détection d’intrusions,
+	\item l’évaluation de la sécurité des infrastructures numériques.
+\end{itemize}
+\vspace{10px}
+
+Il s’implique également dans le transfert technologique vers l’industrie, le soutien aux institutions publiques, la coopération internationale en recherche, et la formation des étudiants, en particulier aux niveaux master et doctorat. 
+
+Son fonctionnement repose sur un modèle de laboratoire ouvert, réunissant des experts issus des différents instituts de recherche de l’université.
+
+
+
+
+
+\section{Situation de départ}
+
+Le laboratoire \acrshort{hust} - \acrshort{bkcs} est constitué de deux grands open space dont la sécurité est assurée par une simple porte fermée à clés. Ces pièces ne sont pas équipées de caméras de surveillance, ce qui pose de sérieuses questions de sécurité. 
+
+Il m'a donc été confié le projet de recherche et de développement d'un site web qui regrouperait la vue en direct de plusieurs caméras de surveillance, ainsi que la gestion de leurs paramètres respectifs.
+
+
+\section{Analyse du sujet}
+
+Afin de préciser la direction de mes recherches j'ai d'abord étudié les solutions classiques utilisées pour une gestion de caméras de surveillance. Les principaux logiciels utilisés sont des logiciels propriétaires qui permettent de nombreuses fonctionnalités mais présentent tout de même des contre-parties : ils sont souvent chers (licences ou activations), leur déploiement peut être long et fastidieux, leur fonctionnement est fermé et ne peut être adapté.
+
+L’objectif de mon stage était donc de rechercher les solutions pour développer un site web intuitif de gestion de caméras IP, qui permet de :
+
+\begin{itemize}
+	\item découvrir automatiquement les caméras présentes sur un réseau local,
+	\item accéder facilement aux flux vidéos en direct de chaque caméra,
+	\item modifier certains paramètres de configuration des caméras,
+        \item le tout avec une gestion des droits utilisateurs.
+\end{itemize}
+\vspace{10px}
+
+Ce travail s'inscrit dans la démarche du laboratoire de créer un outil sécurisant pour un usage interne et offrant un contrôle total sur son fonctionnement et ses données.
+
+\section{Organisation du travail}
+
+Mon travail n'a pas été planifié précisément au préalable mais a plutôt suivi une évolution naturelle au fil de temps et de mes recherches. Mon maître de stage m'indiquait les fonctionnalités de l'application sur lesquelles je devais me concentrer et je m'y attelait. Si je rencontrais un problème, ou bien une fois mon travail terminé, je faisais un compte rendu à mon maître de stage et il m'indiquait les fonctionnalités suivantes sur lesquelles je devait me concentrer. 
+
+Ainsi, j'ai petit à petit fait le tour des fonctionnalités du site et ai rendu un outil fonctionnel dont mes responsables étaient satisfaits. 
+
+\begin{table}[H]
+\centering
+    \input{gantt}
+\caption{Diagramme de Gantt réalisé}
+\label{tab:diag de Gantt}
+\end{table}
+
+
+% ========== Chapitre 2 =================
+\newpage
+\chapter{Recherches et réalisations}
+
+\section{Développement d'un site web}
+
+Mon maître de stage m'a dit que je pouvais développer le site dans le langage que je voulais. Je n'ai cependant jamais développé de site web, j'ai donc cherché comment faire pour commencer.
+
+Je me suis d'abord intéressé aux langages de programmation de sites web comme HTML, CSS ou JavaScript. J'ai fait quelques tutoriels pour essayer de me familiariser avec ces derniers mais cela n'allait pas très loin sans des outils externes.
+
+Je me suis donc intéressé aux frameworks, afin de me permettre de me concentrer rapidement sur le développement des fonctionnalités de mon site sans avoir besoin de créer l'infrastructure de base du site. Il en existe un très grand nombre : ceux utilisés dans l'industrie (comme React, Angular, etc..) qui sont assez complexes à prendre en main, ceux dit "full-stack" (comme Next.js) qui sont très complet mais peuvent aussi être déconseillés aux débutants, et enfin les frameworks générateurs de sites statiques qui sont simples, rapides et moins adaptés aux applications complexes. 
+
+J'ai choisi l'un de ces derniers pour développer mon site : Astro \cite{astro}, car je n'avais pas besoin de m'embêter avec des frameworks complexes inutilement. Astro permet de créer des interfaces propres avec peu de code, tout en gardant la possibilité d’intégrer des composants dynamiques si nécessaire. Ce choix m'a paru viable pour continuer mon projet et mon maître de stage ne m'a pas déconseillé de continuer alors je suis passé à la suite rapidement après avoir pris en main ce framework.
+
+\newpage
+\section{Gestion des utilisateurs}
+
+Pour que le site soit sécurisé il est important de gérer correctement les utilisateurs qui y ont accès, ma priorité a donc été de chercher à implémenter ça pour commencer. 
+
+J'ai donc cherché dans la documentation Astro pour savoir si une telle fonctionnalité était facilement implémentable. J'ai trouvé directement Supabase \cite{supabase}, plateforme open-source compatible avec Astro qui permet de mettre en place des bases de données (\acrshort{bdd}) PostgreSQL facilement pour des applications web sans se soucier de l'infrastructure backend. Je me disais au départ que je stockerai les login et mots de passe dans une \acrshort{bdd} Supabase pour gérer les utilisateurs du site, mais il se trouve que Supabase gère l'authentification aux bases de données directement, je n'ai donc pas eu le besoin de faire ces \acrshort{bdd}.
+
+
+\section{Accéder au flux en direct de la caméra et l'intégrer sur le site}
+
+Les caméras dont je devais m'occuper sont des caméras IP, elles émettent en continu un flux rtsp, appelé ainsi car on peut accéder à leur live via une adresse "rtsp:// adresseIP: port". Il est facile de tester une telle connexion via VLC en rentrant l'adresse complète suivant le template précédent. Le problème est l'intégration d'un tel flux en direct sur un site web, c'est là que la majorité de mon temps de recherche a été consacré. 
+
+Le principal problème était de trouver un moyen de convertir le flux rtsp en un format compatible web \cite{webrtc}, le tout en assurant une connexion sécurisée https au lieu d'un http simple. J'ai pallié ce problème intuitivement en utilisant des certificats auto-signés, qui m'ont permis de créer une connexion pseudo sécurisée. Ce n'est évidemment pas viable pour une application professionnelle mais pour l'instant cela m'a permis de continuer mes recherches, nous y reviendrons plus tard. Les solutions que j'ai testé ensuite pour convertir mon flux rtsp sont nombreuses (Janus, Plugin VLC, IpCamLive, Kurento, etc) mais la majorité d'entre elles ne convenaient pas. Le principal souci rencontré a été la difficulté d'installation et le fait que ces solutions ne soient pas facilement automatisables ou intégrées dans une page web externe (mon site). Après donc beaucoup de recherches je me suis arrêté sur la solution suivante : un serveur RTSPtoWeb \cite{rtsptoweb}. Ce serveur est open source, facilement installable et modifiable, s'intègre simplement sur d'autre sites et surtout s'automatise parfaitement, il permet donc une très bonne scalabilté avec plus de caméras. Il me suffit de le lancer sur Docker avec une simple commande et il peut tourner en arrière plan son mon propre ordinateur et fournir la passerelle nécessaire entre mes caméras et mon site web.
+
+J'ai donc maintenant accès au flux en direct de mes caméras sur mon site sans délai et avec une très bonne qualité, les dernières fonctionnalités qu'il me reste à implémenter sont les modifications de certains paramètres des caméras.
+
+\section{Gestion des paramètres internes des caméras}
+
+Pour cette partie mon maître de stage m'a conseillé d'utiliser le standard Open Network Video Interface Forum (\acrshort{onvif}) \cite{onvif}. C'est un standard de communication qui assure l'interopérabilité entre dispositif de vidéosurveillance IP. Je vais l'utiliser ici pour deux fonctions principales : la détection automatique de caméras sur le réseau et la configuration de ces dernières.
+
+J'ai commencé par écrire plusieurs fichiers de test pour toutes les fonctions \acrshort{onvif} que j'avais rencontré et qui me semblaient utiles. En effet en fonctions des caméras et de leur configurations, certaines fonctionnalités \acrshort{onvif} sont parfois accessibles ou non. La conclusion de tout ces tests est donc la suivante : j'ai bien la possibilité de modifier les paramètres d'encodage vidéo et les paramètres de gestion utilisateurs mais je n'ai accès à aucune des fonctionnalités liées aux enregistrements vidéo. Le fait que je n'ai pas accès aux enregistrements vidéos a posé problème car il était prévu à la base que l'on puisse accéder à ces derniers via mon site. J'ai passé plusieurs semaines à chercher une solution à ce problème avec mon maître de stage mais nous nous sommes mis d'accord pour abandonner cette idée car elle était trop demandante selon lui.
+
+Tout de même très satisfait des paramètres vidéo et utilisateurs j'ai développé une page des paramètres très complète sur mon site, j'ai également pu faire la page d'accueil qui détecte les caméras présentes sur le réseau sans problème. 
+
+
+% ========== Chapitre 3 =================
+\newpage
+\chapter{Travaux supplémentaires}
+
+\section{Analyse de qualité du code}
+
+Une fois mon travail terminé, le site fonctionnel et les rapports rendus (manuel utilisateur, diagrammes fonctionnels, etc) mon responsable m'a conseillé de lancer mon projet sur une machine virtuelle et d'y effectuer des tests via SonarQube \cite{sonarqube} pour tester la qualité de mon code. SonarQube est une plateforme open source d'analyse de qualité de code, elle permet aux développeurs d'améliorer la qualité, la maintenabilité et la sécurité de leurs applications. En effet j'ai, grâce aux analyses de SonarQube, corrigé de nombreux problèmes dans mon code, allant des bugs aux variables inutilisées, en passant par les duplications de code. 
+
+\section{Usage de l'intelligence artificielle}
+
+Après avoir confirmé avec mon maître de stage que tout était correct il m'a proposé de continuer sur ma lancée et de faire des recherches sur les \acrshort{ia} de détection ainsi que leur utilisation dans la télésurveillance. Mon objectif premier était de trouver un modèle d'\acrshort{ia} qui me permettrait de détecter et de compter les personnes présentes dans le bureau pour un enregistrement donné. 
+
+La première étape était de faire en sorte de corriger l'effet "fisheye" de la caméra afin d'avoir une image ou la perspective n'est pas modifiée pour que l'\acrshort{ia} puisse travailler dans de bonnes conditions. Pour ce faire j'ai écrit un programme qui corrige la déformation de chaque image de mon enregistrement vidéo, j'ai trouvé les paramètres de déformations corrects de manière empirique.
+
+Une fois cela fait, j'ai pu commencé à télécharger des modèles d'\acrshort{ia} pré-entraînés à détecter des gens et à les tester sur mon enregistrement. Après plusieurs tests et itérations je suis arrivé à un résultat très concluant en utilisant le modèle CrowdHuman YOLOv5m \cite{yolo,shao2018crowdhuman}. Il repose sur l’architecture YOLOv5m, une variante de taille moyenne de YOLO (algorithme de détection d’objets en temps réel) qui équilibre vitesse et précision. Ce modèle CrowdHuman est donc un modèle YOLOv5 qui a été entraîné au préalable sur un dataset complet de foules et de scènes où les gens ne sont pas facilement reconnaissables. C'est particulièrement pertinent ici car les modèles de reconnaissance non entraînés avaient du mal à reconnaître mes collèges derrière leurs écrans d'ordinateur et tout les élément occluant que l'on peut retrouver dans un openspace. 
+
+Le résultat final que j'ai obtenu est très concluant et assez rapide à compiler, cf Fig. \ref{fig:crowdhuman}. On voit bien que le modèle reconnaît la majorité des personnes présentes sur l'image et peut situer leur tête correctement. Il y a plein d'objets obstruant la vue de la caméra mais la détection se fait sans souci, les seules personnes que le modèle ne reconnaît pas sont très loin de la caméra et à peine reconnaissables à l’œil nu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/yolov5crowdhuman.png}
+    \caption{Reconnaissance de personnes via CrowdHuman}
+    \label{fig:crowdhuman}
+\end{figure}
+
+
+
+% ========== Conclusion =================
+\newpage
+\addcontentsline{toc}{chapter}{Conclusion et perspectives}
+\chapter*{Conclusion et perspectives}
+
+Ainsi ce stage m’a permis de mettre en pratique mes connaissances tout en découvrant de nouveaux outils et méthodes liés au développement web et à la télésurveillance. J’ai conçu un site fonctionnel de gestion de caméras IP intégrant l’authentification des utilisateurs, l’accès en direct aux flux vidéos et la configuration des paramètres via le standard \acrshort{onvif}. Ce projet a atteint ses objectifs et constitue une base solide pour de futurs développements, il y a toutefois certaines limitations techniques à ne pas ignorer. 
+
+En effet, le serveur utilisé pour la gestion de mes flux vidéos (RTSPtoWeb) est un serveur open source qui fonctionne parfaitement pour notre utilisation, mais il a aussi ses limites : : le service n’intègre ni authentification ni gestion native des accès, il repose sur la solidité de ma configuration Docker et expose des ports sensibles qui, mal protégés, pourraient ouvrir la porte à des intrusions. Ce choix de serveur donne un contrôle total sur les données, mais à condition de le renforcer, voici quelques perspectives d'améliorations : un reverse proxy, un chiffrement HTTPS valide, une authentification, et idéalement un VPN ou un filtrage d’IP. Sans ces mesures, le déploiement actuel reste insuffisant pour sécuriser des flux CCTV sensibles.
+
+
+
+
+
+% ========== Bibliographie =====================
+
+\newpage
+\printbibliography[heading=bibintoc]
+
+% =========Fin Biblio ==========================
+
+% ========= Début Annexes ======================
+
+\begin{appendices}
+
+\chapter{Résumé en français}
+
+Lors de mon stage au \acrshort{bkcs} - \acrshort{hust}, j’ai eu pour mission de concevoir et développer un site web de gestion de caméras IP afin de renforcer la sécurité du laboratoire. L’application devait permettre la découverte automatique des caméras sur le réseau local, l’accès aux flux vidéo en direct, la modification de certains paramètres et une gestion sécurisée des utilisateurs.
+
+Pour répondre à ces objectifs, j’ai choisi le framework Astro pour le développement web, associé à Supabase pour l’authentification et la gestion des utilisateurs. J’ai intégré le serveur RTSPtoWeb afin de diffuser les flux vidéo en direct et utilisé le standard \acrshort{onvif} pour la détection et la configuration des caméras. Bien que la fonctionnalité d’accès aux enregistrements vidéo n’ait pas pu être implémentée, le site final a rempli les attentes principales de mes responsables.
+
+En complément, j’ai réalisé une analyse de la qualité du code avec SonarQube et mené des recherches sur l’utilisation de l’intelligence artificielle dans la vidéosurveillance. L’intégration du modèle CrowdHuman YOLOv5m m’a permis d’obtenir des résultats fiables pour la détection et le comptage de personnes en temps réel dans un environnement de type open space.
+
+Ce stage m’a permis de renforcer mes compétences en développement web, cybersécurité et intelligence artificielle tout en contribuant à un projet concret et utile. Il a constitué une expérience formatrice, tant sur le plan technique que professionnel.
+
+\chapter{English summary}
+
+During my internship at \acrshort{bkcs} - \acrshort{hust}, I was assigned to design and implement a web-based system for managing IP cameras in order to improve the laboratory’s security. The project involved developing an intuitive website capable of discovering cameras on a local network, providing live video streams, and allowing the configuration of various camera parameters while ensuring secure user authentication.
+
+To achieve this, I first explored web development frameworks and chose Astro for its simplicity and flexibility. I integrated Supabase for user management, deployed RTSPtoWeb to handle live video streaming, and used the ONVIF standard for camera detection and configuration. Although video recording management could not be implemented due to technical limitations, the final tool successfully delivered the essential functionalities expected by my supervisors.
+
+Beyond the core development, I performed code quality analysis with SonarQube to enhance maintainability and security, and I conducted research on artificial intelligence applied to video surveillance. By testing and adapting the CrowdHuman YOLOv5m model, I achieved reliable real-time people detection within office environments.
+
+This internship allowed me to strengthen my technical skills in web development, cybersecurity, and AI applications while contributing to a concrete solution for the laboratory’s security needs.
+
+
+\chapter{Rendus transmis à mon responsable à la fin de mon travail}
+
+\section{Manuel utilisateur du site}
+
+\includepdf[pages=1, trim=0cm 2cm 0cm 6cm, clip]{User manual - CCTV Website.pdf}
+\includepdf[pages=2-]{User manual - CCTV Website.pdf}
+
+\section{Diagrammes d'architecture système}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{Images/Functionnal diagram.png}
+    \caption{Diagramme fonctionnel}
+    \label{fig:functdiag}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{Images/System deployment diagram.png}
+    \caption{Diagramme de déploiement}
+    \label{fig:systdepldiag}
+\end{figure}
+
+
+\chapter{Fiche-archive de stage}
+
+\input{Page_de_garde}
+
+\section{Descriptif de stage (anglais):}
+
+With the growing number of CCTV cameras, managing each camera manually becomes impractical. The need for a centralized management system is essential to streamline surveillance and enhance security. 
+
+The main goal of this internship is to develop an efficient system for managing multiple CCTV cameras. Manually monitoring large numbers of cameras is not feasible, so automation is necessary. In addition to the management system, AI can be integrated to analyze video streams and detect anomalies, such as theft, fires, or other security threats. 
+
+Here are the main functions of the website that need to be implemented :
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|l|p{8cm}|}
+\hline
+\# & Function & Description \\ \hline
+1 & Login & Login to Web interface with account and password \\ \hline
+2 & Logout & Logout of Web interface \\ \hline
+3 & Scan camera in LAN network & Scan for available Camera devices in the network using ONVIF standard \\ \hline
+4 & Configuration management & Collect and display information of camera device. Allows remote control of camera device, turning on/off device. \\ \hline
+5 & View video stream & Allows viewing of camera video stream directly via RTP protocol \\ \hline
+6 & Store video stream & Allows video storage from camera devices \\ \hline
+\end{tabular}
+\caption{Website functions to be implemented}
+\label{tab:websitefunct}
+\end{table}
+
+\section{Moyens et encadrements mis à disposition:}
+
+Pour ce stage le laboratoire a mis en place une caméra IP dans le bureau ainsi qu'un réseau Wi-Fi indépendant auquel j'ai pu me connecter pour accéder directement à la caméra. Cela m'a permis de travailler dans un environnement stable et contrôlé. 
+
+De plus, j'ai rapidement pris contact avec mes collègues et mon responsable m'a conseillé de ne pas hésiter leur demander de l'aide. J'ai donc tout au long de mon stage communiqué avec M. Dong Le Van, spécialisé dans la sécurité réseau, qui a su m'aider et répondre à mes questions. J'ai également reçu des conseils de M. Cuong Dao Viet pour tout ce qui touche aux \acrshort{ia} de détection.
+
+\end{appendices}
+
+% ============= Fin Annexes =====================
+
+\end{document}
+
